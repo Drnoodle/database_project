@@ -5,7 +5,7 @@ import java.sql.SQLException;
 
 import javax.swing.JComponent;
 
-import data_access.SqlExecutor;
+import data_access.DBConnection;
 import data_access.SqlFactory;
 import view.BodyForm;
 import view.BodyForm.AvailableRequest;
@@ -43,7 +43,7 @@ public class FormControler implements Controler{
 				try {
 					
 					String[][] result = 
-							SqlExecutor
+							DBConnection
 							.getInstance()
 							.getData(statement);
 					
@@ -67,7 +67,14 @@ public class FormControler implements Controler{
 			}});
 		
 		
-		
+		formBody
+		.clickImportcallback()
+		.addCallback(new Runnable(){
+			@Override
+			public void run() {
+				FormControler.this.importCsv();
+			}
+		});
 	}
 
 	
@@ -95,6 +102,11 @@ public class FormControler implements Controler{
 	public void inactive() {
 	}
 
+	
+	
+	private void importCsv(){
+		
+	}
 	
 	
 	
