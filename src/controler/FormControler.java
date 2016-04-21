@@ -7,6 +7,8 @@ import javax.swing.JComponent;
 
 import data_access.DBConnection;
 import data_access.SqlFactory;
+import import_csv.AbstractImport;
+import utils.CsvFile;
 import view.BodyForm;
 import view.BodyForm.AvailableRequest;
 
@@ -42,10 +44,7 @@ public class FormControler implements Controler{
 			
 				try {
 					
-					String[][] result = 
-							DBConnection
-							.getInstance()
-							.getData(statement);
+					String[][] result = DBConnection.getData(statement);
 					
 					// result controler load data into his view
 					ResultControler
@@ -105,6 +104,20 @@ public class FormControler implements Controler{
 	
 	
 	private void importCsv(){
+		
+		DBConnection conn = new DBConnection();
+		for(CsvFile file : CsvFile.values()){
+			try {
+				System.out.println("imports " + file );
+				AbstractImport importCsv = AbstractImport.abstractImport(file, conn);
+				importCsv.insertAll();
+				importCsv.insertCommit();
+				
+			} catch (SQLException e) {
+				e.printStackTrace();
+			}
+			
+		}
 		
 	}
 	

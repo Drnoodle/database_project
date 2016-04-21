@@ -29,17 +29,18 @@ public class CsvReader implements Iterator<String[]>{
 			e.printStackTrace();
 		} 
 		
+		try {
+			currentLine = file.readLine();
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
 	} 
 
 	
 	
 	@Override
 	public boolean hasNext() {
-		try {
-			currentLine = file.readLine();
-		} catch (IOException e) {
-			e.printStackTrace();
-		}
+
 		return currentLine != null;
 	}
 
@@ -47,7 +48,14 @@ public class CsvReader implements Iterator<String[]>{
 	@Override
 	public String[] next() {
 		
-		return currentLine.split(SEPARATOR);
+		String[] row = currentLine.split(SEPARATOR);
+		
+		try {
+			currentLine = file.readLine();
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
+		return row;
 	}
 
 	

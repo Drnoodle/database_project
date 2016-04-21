@@ -15,7 +15,7 @@ public class DBConnection {
 			.append("?useUnicode=true&characterEncoding=utf8")
 			.append("&connectionCollation=utf8_general_ci")
 			.toString();
-	
+
 	
 	private static final String USER = "root";
 	
@@ -41,7 +41,7 @@ public class DBConnection {
 	
 	
 	
-	public String[][] getData(PreparedStatement statement) throws SQLException{
+	public static String[][] getData(PreparedStatement statement) throws SQLException{
 		
 		
 		ResultSet resultSet = statement.executeQuery();
@@ -76,6 +76,28 @@ public class DBConnection {
 		return results;
 	}
 
+	
+	public void inactiveConstraint() throws SQLException{
+		
+		
+		String req = new StringBuilder()
+				.append("SET FOREIGN_KEY_CHECKS=0")
+				.toString();
+		PreparedStatement stat = connection.prepareStatement(req);
+		stat.executeUpdate();
+	}
+	
+	
+	public void activeConstraint() throws SQLException{
+
+		String req = new StringBuilder()
+				.append("SET FOREIGN_KEY_CHECKS=1")
+				.toString();
+		PreparedStatement stat = connection.prepareStatement(req);
+		stat.executeUpdate();
+	}
+	
+	
 	
 	
 	
