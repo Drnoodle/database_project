@@ -23,9 +23,9 @@ public enum TitleType {
 		case "POEM" : return POEM; 
 		case "REVIEW" : return REVIEW; 
 		case "SERIAL" : return SERIAL; 
-		case "SHORTIFICTION" : return SHORTIFICTION; 
+		case "SHORTFICTION" : return SHORTIFICTION; 
 		case "CHAPBOOK" : return CHAPBOOK; 
-		default: throw new InvalidParameterException();
+		default: throw new InvalidParameterException(value);
 		}
 		
 	}

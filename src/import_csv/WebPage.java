@@ -1,13 +1,13 @@
 package import_csv;
 
+import java.sql.Connection;
 import java.sql.SQLException;
 
-import data_access.DBConnection;
 import utils.CsvFile;
 
 public class WebPage extends AbstractImport{
 
-	public WebPage(DBConnection conn) throws SQLException {
+	public WebPage(Connection conn) throws SQLException {
 		super(CsvFile.WEBPAGES, conn);
 		// TODO Auto-generated constructor stub
 	}

@@ -1,14 +1,14 @@
 package import_csv;
 
+import java.sql.Connection;
 import java.sql.SQLException;
 
-import data_access.DBConnection;
 import utils.CsvFile;
 import utils.PublicationType;
 
 public class Publication extends AbstractImport{
 
-	public Publication(DBConnection conn) throws SQLException {
+	public Publication(Connection conn) throws SQLException {
 		super(CsvFile.PUBLICATIONS, conn);
 		// TODO Auto-generated constructor stub
 	}
@@ -19,7 +19,15 @@ public class Publication extends AbstractImport{
 		this.setStringInInsert(1, row[0]);
 		this.setStringInInsert(2, row[1]);
 		this.setStringInInsert(3, row[2]);
-		this.setStringInInsert(4, row[4].replaceAll("[^\\p{N}]", ""));
+		
+		String pages = row[4].replaceAll("[^\\p{N}]", "");
+
+		if(Integer.parseInt(pages)==0){
+			pages = "";
+		}
+
+		this.setStringInInsert(4, pages);
+		
 		this.setStringInInsert(5, row[7]);
 		this.setStringInInsert(6, row[8]);
 		String price = row[9].replaceAll("[^\\p{N}^.]", "");

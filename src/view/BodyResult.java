@@ -2,11 +2,13 @@ package view;
 
 import java.awt.BorderLayout;
 import java.awt.FlowLayout;
-import java.awt.GridLayout;
 
+import javax.swing.BoxLayout;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
+import javax.swing.JScrollPane;
 import javax.swing.SwingUtilities;
+import javax.swing.border.EmptyBorder;
 
 import utils.Button;
 import utils.Callback;
@@ -42,7 +44,8 @@ public class BodyResult extends JPanel{
 	
 	
 	public void setData(String[][] datas){
-		
+
+
 		if(datas.length <= 0){
 		return;
 		}
@@ -51,20 +54,34 @@ public class BodyResult extends JPanel{
 		int colSize = datas[0].length; 
 		
 		
+		JScrollPane pane = new JScrollPane();
+		pane.setBorder(new EmptyBorder(0,0,0,0));
 		
-		GridLayout gl = new GridLayout(rowSize, colSize); 
-		JPanel dataPanel = new JPanel(gl);
-		dataPanel.setOpaque(false);
+		JPanel dataContainer = new JPanel();
+		dataContainer.setOpaque(false);
+		BoxLayout bl = new BoxLayout(dataContainer, BoxLayout.LINE_AXIS ); 
+		dataContainer.setLayout(bl);
 		
-		for(int row = 0; row < colSize; row++){
-			for(int col = 0; col < colSize; col++){
+		for(int col = 0; col < colSize; col++){
+			
+			JPanel colContainer = new JPanel();
+			colContainer.setOpaque(false);
+			bl = new BoxLayout(colContainer, BoxLayout.PAGE_AXIS);
+			colContainer.setLayout(bl);
+			
+			for(int row = 0; row < rowSize; row++){
+				
 				JLabel label = new JLabel(datas[row][col]);
-				dataPanel.add(label);
+				colContainer.add(label);
 			}
+			colContainer.setBorder(new EmptyBorder(0,0,0,40));
+			
+			dataContainer.add(colContainer);
 		}
 		
 		this.tablePanel.removeAll();
-		this.tablePanel.add(dataPanel);
+		pane.setViewportView(dataContainer);
+		this.tablePanel.add(pane);
 		
 		SwingUtilities.invokeLater(new Runnable(){
 			@Override

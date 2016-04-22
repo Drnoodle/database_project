@@ -1,13 +1,13 @@
 package import_csv;
 
+import java.sql.Connection;
 import java.sql.SQLException;
 
-import data_access.DBConnection;
 import utils.CsvFile;
 
 public class TaggedBy extends AbstractImport{
 
-	public TaggedBy(DBConnection conn) throws SQLException {
+	public TaggedBy(Connection conn) throws SQLException {
 		super(CsvFile.TITLES_TAG, conn);
 		// TODO Auto-generated constructor stub
 	}

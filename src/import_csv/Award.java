@@ -1,13 +1,13 @@
 package import_csv;
 
+import java.sql.Connection;
 import java.sql.SQLException;
 
-import data_access.DBConnection;
 import utils.CsvFile;
 
 public class Award extends AbstractImport{
 
-	public Award(DBConnection conn) throws SQLException {
+	public Award(Connection conn) throws SQLException {
 		super(CsvFile.AWARDS, conn);
 		// TODO Auto-generated constructor stub
 	}

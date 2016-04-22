@@ -1,14 +1,14 @@
 package import_csv;
 
+import java.sql.Connection;
 import java.sql.SQLException;
 
 import data_access.CsvReader;
-import data_access.DBConnection;
 import utils.CsvFile;
 
 public class Notes extends AbstractImport{
 
-	public Notes(DBConnection conn) throws SQLException {
+	public Notes(Connection conn) throws SQLException {
 		super(CsvFile.NOTES, conn);
 	}
 

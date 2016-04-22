@@ -87,7 +87,7 @@ public class BodyForm extends JPanel{
 		sqlUserText = new JTextPane();
 		sqlUserText.setBackground(new Color(245,245,245));
 		sqlUserText.setBorder(BorderFactory.createLineBorder(new Color(0,0,0,15),4));
-		sqlUserText.setFont(LocalFont.getFont(LocalFont.BREE, 14));		
+		sqlUserText.setFont(LocalFont.getFont(LocalFont.PATUAONE, 14));		
 		sqlUserButton = new Button("go");
 		sqlUserTextContainer.add(sqlUserText);
 		sqlUserTextContainer.add(sqlUserButton, BorderLayout.SOUTH);
@@ -105,7 +105,7 @@ public class BodyForm extends JPanel{
 		for(final AvailableRequest req : AvailableRequest.values()){
 			
 			Button b = new Button(req.description()); 
-			b.setFont(LocalFont.getFont(LocalFont.BREE, 14));
+			b.setFont(LocalFont.getFont(LocalFont.HAMMERSMITHONE, 14));
 			// on click : button b put his available request
 			// into "lastRequestClicked" and run the availableRequestClicked
 			// callback
@@ -158,6 +158,14 @@ public class BodyForm extends JPanel{
 	public String sqlText(){
 		return sqlUserText.getText();
 	}
+	
+	
+	public void flushSqlText(){
+		sqlUserText.setText("");
+	}
+	
+	
+	
 	
 	public AvailableRequest lastRequestclicked(){
 		return lastRequestClicked;

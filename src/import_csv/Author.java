@@ -1,14 +1,13 @@
 package import_csv;
 
+import java.sql.Connection;
 import java.sql.SQLException;
-import java.sql.Types;
 
-import data_access.DBConnection;
 import utils.CsvFile;
 
 public class Author extends AbstractImport {
 
-	public Author(DBConnection conn) throws SQLException {
+	public Author(Connection conn) throws SQLException {
 		super(CsvFile.AUTHORS, conn);
 	}
 

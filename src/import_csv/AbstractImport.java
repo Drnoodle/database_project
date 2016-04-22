@@ -2,12 +2,11 @@ package import_csv;
 
 import java.io.IOException;
 import java.security.InvalidParameterException;
+import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.SQLException;
-import java.sql.Types;
 
 import data_access.CsvReader;
-import data_access.DBConnection;
 import utils.CsvFile;
 
 public abstract class AbstractImport {
@@ -19,17 +18,29 @@ public abstract class AbstractImport {
 	protected CsvFile csvFile;
 	protected PreparedStatement insert; 
 	protected PreparedStatement truncate; 
-	
+	private PreparedStatement activeConstraint; 
+	private PreparedStatement inactiveConstraint; 
 	
 	/*
 	 * constructor
 	 */
-	public AbstractImport(CsvFile csvFile, DBConnection conn) throws SQLException{
+	public AbstractImport(CsvFile csvFile, Connection conn) throws SQLException{
 		
+		String req = new StringBuilder()
+				.append("SET FOREIGN_KEY_CHECKS=0")
+				.toString();
+		inactiveConstraint = conn.prepareStatement(req);
+		
+		req = new StringBuilder()
+				.append("SET FOREIGN_KEY_CHECKS=1")
+				.toString();
+		activeConstraint = conn.prepareStatement(req);
+
 		this.csvFile = csvFile;
 		this.insert = conn
-				.getConnection()
 				.prepareStatement(this.getSqlRequest());
+		
+		this.insert.executeBatch();
 	}
 
 
@@ -46,47 +57,35 @@ public abstract class AbstractImport {
 	
 	
 	/*
-	 * load all row to db
+	 * insert & commit 100 by 100 rows to db
 	 */
-	public void insertAll() throws SQLException{
+	public void insert() throws SQLException{
 		
 		CsvReader reader = new CsvReader(csvFile.path());
 		
-		while(reader.hasNext()){
+		this.inactiveConstraint();
+		
+		int i =1;
+		while(i<501 && reader.hasNext()){
 			String[] row = reader.next();
 			this.clearInsertParameters();
 			this.addBatch(row);
-		}
-		
-		try {
-			reader.close();
-		} catch (IOException e) {
-			e.printStackTrace();
-		}
-	}
-	
-	/*
-	 * load all row to db
-	 */
-	public void insert10EntriesTest() throws SQLException{
-		
-		CsvReader reader = new CsvReader(csvFile.path());
-		int i = 0; 
-		
-		while(i<10 && reader.hasNext()){
-			String[] row = reader.next();
-			this.clearInsertParameters();
-			this.addBatch(row);
-			System.out.println(insert.toString());
 			i++;
+			if(i%100 == 0){
+				this.insertCommit();
+				System.out.println(i+" rows inserted");
+			}
 		}
+		
+		this.activeConstraint();
+		this.insert.executeBatch();
 		
 		try {
 			reader.close();
 		} catch (IOException e) {
 			e.printStackTrace();
 		}
-	}
+	}	
 	
 	
 	
@@ -102,18 +101,34 @@ public abstract class AbstractImport {
 	 */
 	protected abstract String getSqlRequest();
 	
+	
+	
+	
 	protected void setStringInInsert(int parameter, String value) throws SQLException{
 		
-		if(value.equals("\\N")){
+		if(value.equals("\\N") || value.equals("")){
 			this.insert.setString(parameter, null);
+			return;
 		}
-		else {
-			this.insert.setString(parameter, value);
-		}
+		this.insert.setString(parameter, value);
+		
 		
 	}
 
-	public static AbstractImport abstractImport(CsvFile file, DBConnection conn) 
+	
+	public void inactiveConstraint() throws SQLException{
+		
+		
+		inactiveConstraint.executeUpdate();
+	}
+	
+	
+	public void activeConstraint() throws SQLException{
+		activeConstraint.executeUpdate();
+	}
+	
+	
+	public static AbstractImport abstractImport(CsvFile file, Connection conn) 
 			throws SQLException {
 
 		switch(file){
