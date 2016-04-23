@@ -1,0 +1,154 @@
+
+
+
+_________________________________________________________________ README
+
+
+
+
+____________________________________________________ ARCHITECTURE
+
+
+######## default package
+
+Contains the main of the project used to create
+a frame and to active the content-pane's controler.
+
+
+######## data access
+
+Allows to extract informations from csv
+with the CsvReader's class which inherits from an Iterator<String[String]>.
+In this way, it's quite easy to iterate over the row of any given
+csv file.
+Provide an access to database with DBReader that is able to provide
+connection to db and implements a factory of prepared-requested 
+as specified in the requierements 
+(All read-only db request are in this class). 
+
+
+######## import_csv
+
+Declare an AbstractImport's class with 2 abstracts functions : 
+- getSqlRequest() : 
+give the string used to create a prepared statement for insertion.
+The parameters aren't specified yet : 
+i.e : return "INSERT INTO data (id,smth) VALUES (?,?)"
+
+- addbatch(String[] row) :
+for a given row that can be retrieve from the CsvReader 
+(i.e : Iterator<String[]>) it parametrizes the prepared statement
+declared above and add batch to the statement.
+
+All class in the package only redefines these two abstract methods.
+Any AbstractImport class know how to import the data given 
+in the constructor. 
+
+
+######## view 
+
+Defines the GUI of the software.
+provides callbacks when action is executed on the view.
+
+
+######## controler 
+
+instanciate an UI view and add some callbacks to it.
+The controled view react on event.
+Callback are implemented as Runnable.
+
+
+
+______________________________________________________________ SQL
+
+
+
+######## a/
+
+SELECT YEAR(DATE) AS year, COUNT(*) AS total 
+FROM publication 
+GROUP BY(YEAR(DATE));
+
+
+
+######## b/
+
+SELECT A.NAME, COUNT(*) as totalPub FROM author A
+INNER JOIN publication_author P 
+ON A.ID_AUTHOR = P.ID_AUTHOR
+GROUP BY(A.ID_AUTHOR)* 
+ORDER BY totalPub DESC
+LIMIT 0,10
+
+
+
+######## c/
+
+youngest : 
+SELECT * FROM author WHERE ID_AUTHOR IN (
+SELECT PA.ID_AUTHOR FROM publication_author PA
+INNER JOIN publication P
+ON P.ID_PUBLICATION = PA.ID_PUBLICATION
+WHERE YEAR(P.DATE) = 1993
+)
+ORDER BY YEAR(BIRTHDATE) DESC, MONTH(BIRTHDATE) DESC, DAY(BIRTHDATE) DESC
+LIMIT 0,1
+
+oldest:
+SELECT * FROM author WHERE ID_AUTHOR IN (
+SELECT PA.ID_AUTHOR FROM publication_author PA
+INNER JOIN publication P
+ON P.ID_PUBLICATION = PA.ID_PUBLICATION
+WHERE YEAR(P.DATE) = 1993
+)
+ORDER BY YEAR(BIRTHDATE) ASC, MONTH(BIRTHDATE) ASC, DAY(BIRTHDATE) ASC
+LIMIT 0,1
+
+
+
+######## d/
+
+SELECT CEIL(P.PAGES/50)*50, COUNT(*) FROM publication P
+INNER JOIN title_has_publication TP 
+ON TP.ID_PUBLICATION = P.ID_PUBLICATION
+INNER JOIN title T ON T.ID_TITLE = TP.ID_PUBLICATION
+WHERE T.IS_GRAPHICS = "Y" 
+GROUP BY(CEIL((P.PAGES+1)/50))
+
+
+
+####### e
+
+SELECT SUM(PRICE)/COUNT(*) FROM publication
+WHERE CURRENCY='$'
+GROUP BY(ID_PUBLISHER)
+
+
+
+######## f
+
+SELECT A.NAME, COUNT(*) as totalPub FROM title_has_publication TP
+INNER JOIN publication_author PA ON PA.ID_PUBLICATION = TP.ID_PUBLICATION
+INNER JOIN author A ON A.ID_AUTHOR = PA.ID_AUTHOR
+WHERE TP.ID_TITLE IN (
+SELECT ID_TITLE FROM tagged_by 
+WHERE ID_TAG = (SELECT ID_TAG FROM tag WHERE NAME='science fiction' )
+)
+GROUP BY(A.ID_AUTHOR)
+ORDER BY totalPub DESC
+LIMIT 0,1
+
+
+
+######## g
+
+SELECT T.TITLE, COUNT(*) AS popularity  FROM (
+SELECT ID_TITLE AS idTitle FROM award_has_title
+UNION ALL
+SELECT ID_TITLE_REVIEWED AS idTitle FROM review) ID
+INNER JOIN title T WHERE T.ID_TITLE = idTitle
+GROUP BY(idTitle)
+ORDER BY  popularity DESC
+LIMIT 0,3
+
+

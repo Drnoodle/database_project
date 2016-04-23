@@ -13,6 +13,11 @@ public class DBReader {
 
 	
 	
+	/*
+	 * Connection to database
+	 * 
+	 */
+	
 	private static final String URL = 
 			new StringBuilder("jdbc:mysql://localhost:3306/ldb")
 			.append("?useUnicode=true&characterEncoding=utf8")
@@ -33,7 +38,9 @@ public class DBReader {
 		
 	}
 	
-	
+	/*
+	 * Factory of prepared statement required in the assignment
+	 */
 	
 	public static PreparedStatement getStatement(AvailableRequest req, Connection conn) 
 			throws SQLException{
@@ -189,7 +196,9 @@ public class DBReader {
 
 
 
-	
+	/*
+	 * Extract a 2 dimensional string array with a statement. 
+	 */
 	public static String[][] getData(PreparedStatement statement) throws SQLException{
 		
 		

@@ -16,10 +16,16 @@ public abstract class AbstractImport {
 	 * 
 	 */
 	protected CsvFile csvFile;
+	
+	// insert statement
 	protected PreparedStatement insert; 
-	protected PreparedStatement truncate; 
+	
+	// active foreign key constraint
 	private PreparedStatement activeConstraint; 
+	
+	// inactive foreign key constraint
 	private PreparedStatement inactiveConstraint; 
+	
 	
 	/*
 	 * constructor
@@ -37,19 +43,24 @@ public abstract class AbstractImport {
 		activeConstraint = conn.prepareStatement(req);
 
 		this.csvFile = csvFile;
+		
+		// create the insert statement with the abstract method "getSqlRequest()"
 		this.insert = conn
 				.prepareStatement(this.getSqlRequest());
 		
-		this.insert.executeBatch();
 	}
 
 
+	/**
+	 * clear the old parameters in the insert statement. 
+	 * 
+	 */
 	private void clearInsertParameters() throws SQLException{
 		this.insert.clearParameters();
 	}
 	
 	/*
-	 * submits the cluster of request added in the batch
+	 * commits all batch added to insert
 	 */
 	public int[] insertCommit() throws SQLException{
 		return insert.executeBatch();
@@ -57,7 +68,7 @@ public abstract class AbstractImport {
 	
 	
 	/*
-	 * insert & commit 100 by 100 rows to db
+	 * insert all (commit 100 by 100 rows to db)
 	 */
 	public void insert() throws SQLException{
 		
@@ -66,7 +77,7 @@ public abstract class AbstractImport {
 		this.inactiveConstraint();
 		
 		int i =1;
-		while(i<501 && reader.hasNext()){
+		while(reader.hasNext()){
 			String[] row = reader.next();
 			this.clearInsertParameters();
 			this.addBatch(row);
@@ -92,7 +103,7 @@ public abstract class AbstractImport {
 	/*
 	 * non abstract class know how to parametrize the
 	 * prepared statement with the row.
-	 * the sql request is then added.
+	 * The parametrized batch is added.
 	 */
 	protected abstract void addBatch(String[] row) throws SQLException;
 	
@@ -103,7 +114,11 @@ public abstract class AbstractImport {
 	
 	
 	
-	
+	/**
+	 * method used to parametrize the insert statement 
+	 * with a string into the k-ieme parameter
+	 * 
+	 */
 	protected void setStringInInsert(int parameter, String value) throws SQLException{
 		
 		if(value.equals("\\N") || value.equals("")){
@@ -116,18 +131,25 @@ public abstract class AbstractImport {
 	}
 
 	
-	public void inactiveConstraint() throws SQLException{
-		
-		
+	/*
+	 * inactive foreign key constraint
+	 */
+	public void inactiveConstraint() throws SQLException{	
 		inactiveConstraint.executeUpdate();
 	}
 	
 	
+	/*
+	 * active foreign key constraint
+	 */
 	public void activeConstraint() throws SQLException{
 		activeConstraint.executeUpdate();
 	}
 	
 	
+	/*
+	 * static factory of abstract import
+	 */
 	public static AbstractImport abstractImport(CsvFile file, Connection conn) 
 			throws SQLException {
 
