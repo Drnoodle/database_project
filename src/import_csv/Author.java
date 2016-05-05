@@ -20,8 +20,19 @@ public class Author extends AbstractImport {
 		this.setStringInInsert(4, row[3]);
 		this.setStringInInsert(5, row[4]);
 		this.setStringInInsert(6, row[5]);
-		this.setStringInInsert(7, row[6]);
-		this.setStringInInsert(8, row[7]);
+		
+		String date = row[6];
+		if(date.length() != 10){
+			date = "";
+		}
+		this.setStringInInsert(7, date);
+		
+		date = row[7];
+		if(date.length() != 10){
+			date = "";
+		}
+		this.setStringInInsert(8, date);
+		
 		this.setStringInInsert(9, row[8]);
 		this.setStringInInsert(10, row[9]);
 		this.setStringInInsert(11, row[10]);

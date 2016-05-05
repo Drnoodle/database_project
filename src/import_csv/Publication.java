@@ -16,15 +16,14 @@ public class Publication extends AbstractImport{
 	@Override
 	protected void addBatch(String[] row) throws SQLException {
 
+		if(row.length != 13){
+			return;
+		}
 		this.setStringInInsert(1, row[0]);
 		this.setStringInInsert(2, row[1]);
 		this.setStringInInsert(3, row[2]);
 		
 		String pages = row[4].replaceAll("[^\\p{N}]", "");
-
-		if(Integer.parseInt(pages)==0){
-			pages = "";
-		}
 
 		this.setStringInInsert(4, pages);
 		
@@ -48,7 +47,9 @@ public class Publication extends AbstractImport{
 		this.setStringInInsert(9, ""+type.ordinal());
 		
 		this.setStringInInsert(10, row[5]);
-		this.setStringInInsert(11, row[12]);
+		
+		this.setStringInInsert(11, row[12].replaceAll("[^\\p{N}]", ""));
+		
 		this.setStringInInsert(12, row[11]);
 		this.setStringInInsert(13, row[10]);
 		this.setStringInInsert(14, row[3]);

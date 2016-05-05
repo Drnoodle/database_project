@@ -15,7 +15,15 @@ public class PublicationSerie extends AbstractImport{
 	@Override
 	protected void addBatch(String[] row) throws SQLException {
 		this.setStringInInsert(1, row[0]);
-		this.setStringInInsert(2, row[1]);
+		
+		String name = row[1];
+		
+		if(name.length() > 250){
+			name = name.substring(0, 250);
+		}
+		
+		this.setStringInInsert(2, name);
+		
 		this.setStringInInsert(3, row[2]);
 		this.insert.addBatch();
 	}

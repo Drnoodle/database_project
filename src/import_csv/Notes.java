@@ -21,19 +21,23 @@ public class Notes extends AbstractImport{
 			return;
 		}
 		
-		this.setStringInInsert(1, row[0]);
 		
 		String note = "";
 		if(row.length == 2){
-			
-		note = CsvReader.removeHtml(row[1]);
-		
-		if(note.length() > 3000){
-			note = note.substring(0,3000);
+
+			note = CsvReader.removeHtml(row[1]);
+
+			if(note.length() > 3000){
+				note = note.substring(0,3000);
+			}
+
+			if(note.length()==0){
+				return;
+			}
 		}
+
 		
-		}
-		
+		this.setStringInInsert(1, row[0]);
 		this.setStringInInsert(2, note);
 		this.insert.addBatch();
 		

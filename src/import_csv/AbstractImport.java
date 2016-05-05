@@ -77,7 +77,7 @@ public abstract class AbstractImport {
 		this.inactiveConstraint();
 		
 		int i =1;
-		while(reader.hasNext()){
+		while(i<2000 && reader.hasNext()){
 			String[] row = reader.next();
 			this.clearInsertParameters();
 			this.addBatch(row);
@@ -88,8 +88,9 @@ public abstract class AbstractImport {
 			}
 		}
 		
+		this.insertCommit();
 		this.activeConstraint();
-		this.insert.executeBatch();
+		
 		
 		try {
 			reader.close();

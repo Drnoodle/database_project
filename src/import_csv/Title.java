@@ -25,7 +25,11 @@ public class Title extends AbstractImport{
 	
 		TitleType type = TitleType.get(row[8]);
 		this.setStringInInsert(7, ""+type.ordinal());
-		this.setStringInInsert(8, row[6]);
+		
+		String serieNumber = row[6].replaceAll("[^\\p{N}]", "");
+		
+		this.setStringInInsert(8, serieNumber);
+		
 		this.setStringInInsert(9, row[5]);
 		
 		String isGraphic;

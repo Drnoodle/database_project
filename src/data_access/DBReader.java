@@ -19,9 +19,9 @@ public class DBReader {
 	 */
 	
 	private static final String URL = 
-			new StringBuilder("jdbc:mysql://localhost:3306/ldb")
+			new StringBuilder("jdbc:mysql://localhost:3306/DB2016_G21")
 			.append("?useUnicode=true&characterEncoding=utf8")
-			.append("&connectionCollation=utf8_general_ci")
+			.append("&connectionCollation=utf8_general_ci&useSSL=false")
 			.toString();
 	
 	private static final String USER = "root";

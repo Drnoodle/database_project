@@ -7,6 +7,7 @@ import utils.CsvFile;
 
 public class WebPage extends AbstractImport{
 
+	
 	public WebPage(Connection conn) throws SQLException {
 		super(CsvFile.WEBPAGES, conn);
 		// TODO Auto-generated constructor stub
@@ -14,6 +15,7 @@ public class WebPage extends AbstractImport{
 
 	@Override
 	protected void addBatch(String[] row) throws SQLException {
+		
 		this.setStringInInsert(1, row[0]);
 		this.setStringInInsert(2, row[3]);
 		this.setStringInInsert(3, row[1]);
@@ -30,7 +32,7 @@ public class WebPage extends AbstractImport{
 				.append("INSERT INTO webpage ")
 				.append(" (ID_WEBPAGE,URL,ID_AUTHOR,")
 				.append("ID_TITLE,ID_PUBLISHER, ID_AWARD_TYPE)")
-				.append(" VALUES (?,?,?,?,?,?);")
+				.append(" VALUES (?,?,?,?,?,?) ON DUPLICATE KEY UPDATE URL=URL;")
 				.toString();
 	}
 
