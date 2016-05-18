@@ -1,13 +1,8 @@
 package view;
 
-import java.awt.BorderLayout;
-import java.awt.Color;
-import java.awt.FlowLayout;
+import java.awt.*;
 
-import javax.swing.BorderFactory;
-import javax.swing.BoxLayout;
-import javax.swing.JPanel;
-import javax.swing.JTextPane;
+import javax.swing.*;
 import javax.swing.border.EmptyBorder;
 
 import utils.Button;
@@ -20,18 +15,21 @@ public class BodyForm extends JPanel{
 	
 	private static final long serialVersionUID = 1L;
 
+    public enum SearchBoxSelection {
+        AUTHOR,AWARD,PUBLISHER,TITLE
+    }
 	
 
 	public enum AvailableRequest{
 		
 		YEAR_TO_TOTAL_PUB("total publications by year"), 
 		TEN_MOST_PUBLISHED_AUTHORS("ten most published authors"),
-		YOUNGEST_AUTHOR("youngest author"),
-		OLDEST_AUTHOR("oldest author"),
+		YOUNGEST_AUTHOR("youngest Author"),
+		OLDEST_AUTHOR("oldest Author"),
 		COMIC_DETAIL("comics by total pages"),
 		PUBLISHER_AVERAGE_NOVEL_PRICE("average price of novels by publisher"),
 		AUTHOR_SCIENCE_FICTION(
-				"author with the higgest number of "
+				"Author with the higgest number of "
 				+ "titles tagged as science fiction"),
 		THREE_MOST_POPULAR_TITLE("three most popular titles"); 
 		
@@ -52,9 +50,9 @@ public class BodyForm extends JPanel{
 	
 	private Button importButton; 
 	
-	private JTextPane sqlUserText;
-	
-	private Button sqlUserButton;
+	private JTextField searchPane;
+	private JComboBox searchSelection;
+	private Button searchButton;
 	
 	
 	private Callback availableRequestClicked = new Callback();
@@ -81,20 +79,29 @@ public class BodyForm extends JPanel{
 
 		
 		// personal sql text field for the user 
-		JPanel sqlUserTextContainer = new JPanel(new BorderLayout());
-		sqlUserTextContainer.setOpaque(false);
-		sqlUserTextContainer.setBorder(new EmptyBorder(20, 30, 30, 30));
-		sqlUserText = new JTextPane();
-		sqlUserText.setBackground(new Color(245,245,245));
-		sqlUserText.setBorder(BorderFactory.createLineBorder(new Color(0,0,0,15),4));
-		sqlUserText.setFont(LocalFont.getFont(LocalFont.PATUAONE, 14));		
-		sqlUserButton = new Button("go");
-		sqlUserTextContainer.add(sqlUserText);
-		sqlUserTextContainer.add(sqlUserButton, BorderLayout.SOUTH);
-		
-		
-		
-		// buttons for available request
+		JPanel searchBoxContainer = new JPanel(new FlowLayout(FlowLayout.LEFT));
+        searchBoxContainer.setOpaque(false);
+
+        JPanel sqlUserSearchBoxForm = new JPanel();
+        sqlUserSearchBoxForm.setOpaque(false);
+        BoxLayout box = new BoxLayout(sqlUserSearchBoxForm,BoxLayout.LINE_AXIS);
+        searchSelection = new JComboBox();
+        searchSelection.addItem("Author");
+        searchSelection.addItem("Award");
+        searchSelection.addItem("Publisher");
+        searchSelection.addItem("Title");
+        searchPane = new JTextField();
+        searchPane.setSize(new Dimension(270,22));
+        searchPane.setPreferredSize(new Dimension(400,20));
+		searchButton = new Button("go");
+
+        sqlUserSearchBoxForm.add(searchPane);
+        sqlUserSearchBoxForm.add(searchSelection);
+        sqlUserSearchBoxForm.add(searchButton);
+        searchBoxContainer.add(sqlUserSearchBoxForm);
+
+
+        // buttons for available request
 		
 		JPanel requestsPane = new JPanel();
 		requestsPane.setOpaque(false);
@@ -128,13 +135,18 @@ public class BodyForm extends JPanel{
 		
 		this.add(importContainer);
 		
-		this.add(new Title("existing querries"));
+		this.add(new Title("requests #milestone2"));
 		this.add(requestsContainer);
 		
-		this.add(new Title("execute your own querry"));
-		this.add(sqlUserTextContainer);
-		
-	}
+		this.add(new Title("search box #milestone2"));
+		this.add(searchBoxContainer);
+
+        this.add(new Title("requests #milestone3"));
+        JPanel panel = new JPanel();
+        panel.setOpaque(false);
+        this.add(panel);
+
+    }
 	
 	
 	
@@ -150,23 +162,24 @@ public class BodyForm extends JPanel{
 	}
 	
 	
-	public Callback clickSqlText(){
-		return sqlUserButton.clickedCallback();
+	public Callback searchBoxCallback(){
+		return searchButton.clickedCallback();
 	}
 	
 	
-	public String sqlText(){
-		return sqlUserText.getText();
+	public String searchText(){
+		return searchPane.getText();
 	}
 	
-	
-	public void flushSqlText(){
-		sqlUserText.setText("");
+	public SearchBoxSelection searchSelection(){
+        return SearchBoxSelection.values()[searchSelection.getSelectedIndex()];
+    }
+
+	public void flushSearchText(){
+		searchPane.setText("");
 	}
-	
-	
-	
-	
+
+
 	public AvailableRequest lastRequestclicked(){
 		return lastRequestClicked;
 	}

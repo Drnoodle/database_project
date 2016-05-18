@@ -15,7 +15,7 @@ public class Award extends AbstractImport{
 	@Override
 	protected void addBatch(String[] row) throws SQLException {
 		this.setStringInInsert(1, row[0]);
-		this.setStringInInsert(2, row/Users/noodle/workspace/java/database_project/src/import_csv/AbstractImport.java[1]);
+		this.setStringInInsert(2, row[1]);
 		this.setStringInInsert(3, row[2]);
 		this.setStringInInsert(4, row[6]);
 		this.setStringInInsert(5, row[4]);

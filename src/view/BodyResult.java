@@ -1,7 +1,6 @@
 package view;
 
-import java.awt.BorderLayout;
-import java.awt.FlowLayout;
+import java.awt.*;
 
 import javax.swing.BoxLayout;
 import javax.swing.JLabel;
@@ -10,6 +9,7 @@ import javax.swing.JScrollPane;
 import javax.swing.SwingUtilities;
 import javax.swing.border.EmptyBorder;
 
+import utils.BackgroundPanel;
 import utils.Button;
 import utils.Callback;
 
@@ -24,8 +24,7 @@ public class BodyResult extends JPanel{
 	
 
 	public BodyResult(){
-		
-		this.setOpaque(false);
+
 		this.setLayout(new BorderLayout());
 		
 		closeButton = new Button("x");
@@ -34,9 +33,11 @@ public class BodyResult extends JPanel{
 		topContainer.add(closeButton); 
 		
 		tablePanel = new JPanel(new BorderLayout());
-		tablePanel.setOpaque(false);
-		
-		this.add(topContainer, BorderLayout.NORTH);
+        tablePanel.setOpaque(false);
+
+        this.add(topContainer, BorderLayout.NORTH);
+        this.setOpaque(false);
+        this.setBackground(Color.CYAN);
 		this.add(tablePanel);
 		
 	}
@@ -57,8 +58,8 @@ public class BodyResult extends JPanel{
 		JScrollPane pane = new JScrollPane();
 		pane.setBorder(new EmptyBorder(0,0,0,0));
 		
-		JPanel dataContainer = new JPanel();
-		dataContainer.setOpaque(false);
+		JPanel dataContainer = new BackgroundPanel("images/background.png");
+        dataContainer.setOpaque(false);
 		BoxLayout bl = new BoxLayout(dataContainer, BoxLayout.LINE_AXIS ); 
 		dataContainer.setLayout(bl);
 		
@@ -78,7 +79,8 @@ public class BodyResult extends JPanel{
 			
 			dataContainer.add(colContainer);
 		}
-		
+
+
 		this.tablePanel.removeAll();
 		pane.setViewportView(dataContainer);
 		this.tablePanel.add(pane);

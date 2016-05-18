@@ -39,6 +39,7 @@ public class Button extends JButton implements MouseListener{
 	public void mouseClicked(MouseEvent arg0) {
 
 		if(this.isEnabled()){
+            System.out.println("clicked");
  			clickedCallback().runAll();
 		}
 		

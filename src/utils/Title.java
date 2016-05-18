@@ -19,11 +19,11 @@ public class Title extends JPanel {
 	private static final long serialVersionUID = 1L;
 	
 
-	String title; 
+	String title;
 	
 	public Title(String str){
 	this.setOpaque(false);
-	this.setBorder(new EmptyBorder(0,10,30,0));
+	this.setBorder(new EmptyBorder(0,0,30,0));
 	this.title = str;
 
 	}
@@ -32,10 +32,10 @@ public class Title extends JPanel {
 	public void paintComponent(Graphics g){
 
 		Graphics2D g2d =  (Graphics2D)g;
-		
-		FontMetrics metrics = 
+
+		FontMetrics metrics =
 				g2d.getFontMetrics(LocalFont.getFont(LocalFont.MONTSERRAT, 14));
-		
+
 		int height = metrics.getHeight();
 		int width = metrics.stringWidth(title);
 		this.setSize(width+40,height+40);
@@ -46,7 +46,6 @@ public class Title extends JPanel {
 		g2d.setColor(new Color(0,0,0,5));
 		Rectangle shade2 = new Rectangle(0,15,width+22,height-3);
 		g2d.fill(shade2);
-		//g2d.rotate(-Math.PI/120);
 		g2d.setColor(new Color(250,240,51));
 		Rectangle rect = new Rectangle(0,15,width+20,height-5);
 		g2d.fill(rect);
