@@ -1,67 +1,73 @@
 package controler;
 
-import javax.swing.JComponent;
-
+import library.Author;
+import library.Award;
+import library.Publisher;
+import library.Title;
 import view.BodyResult;
 
+import javax.swing.*;
 
-public class ResultControler implements Controler{
-
-	
-	
-	private static ResultControler instance = new ResultControler();
-	
-	private BodyResult bodyResult = new BodyResult();
-
-	
-	public ResultControler(){
-		
-		if(instance != null){
-			throw new IllegalAccessError();
-		}
-		
-		// go to form if user close the table result
-		bodyResult
-		.clickCloseCallback()
-		.addCallback(new Runnable(){
-			@Override
-			public void run() {
-				ContentPaneControler
-				.getInstance()
-				.display(FormControler.getInstance());
-			}});
-	
-	}
-	
-	
-	
-	public static ResultControler getInstance(){
-		return instance;
-	}
+/**
+ * Created by noodle on 17.05.16.
+ */
+public class ResultControler implements Controler {
 
 
-	
-	@Override
-	public JComponent getComponent() {
-		return bodyResult;
-	}
+    private static ResultControler instance = new ResultControler();
+
+    private BodyResult bodyContent;
+
+    private ResultControler(){
+
+        if(instance != null){
+            throw new IllegalAccessError();
+        }
+
+        bodyContent = new BodyResult();
+
+    }
 
 
-
-	@Override
-	public void active() {
-	}
-
+    public static ResultControler getInstance(){
+        return instance;
+    }
 
 
-	@Override
-	public void inactive() {
-	}
+    @Override
+    public void active() {
+    }
 
-	
-	public void setResult(String[][] table){
-		bodyResult.setData(table);
-	}
+    @Override
+    public void inactive() {
 
-	
+    }
+
+    @Override
+    public JComponent getComponent() {
+        return bodyContent;
+    }
+
+
+    public void displayAuthor(Author a){
+        bodyContent.setAuthor(a);
+    }
+
+    public void displayAward(Award a){
+        bodyContent.setAward(a);
+    }
+
+    public void displayTitle(Title t){
+        bodyContent.setTitle(t);
+    }
+
+    public void displayPublisher(Publisher p){
+        bodyContent.setPublisher(p);
+    }
+
+    public void displayArray(String[][] data){
+        bodyContent.setData(data);
+    }
+
+
 }

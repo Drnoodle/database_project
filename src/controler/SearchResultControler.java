@@ -26,16 +26,6 @@ public class SearchResultControler implements Controler {
 
         searchResult = new BodySearchResult();
 
-        searchResult
-                .closeCallback()
-                .addCallback(new Runnable(){
-                    @Override
-                    public void run() {
-                        ContentPaneControler
-                                .getInstance()
-                                .display(FormControler.getInstance());
-                    }
-                });
     }
 
 

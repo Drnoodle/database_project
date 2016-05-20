@@ -1,7 +1,6 @@
 package library;
 
-import controler.ContentControler;
-import controler.ContentPaneControler;
+import controler.ResultControler;
 
 /**
  * Created by noodle on 17.05.16.
@@ -65,12 +64,50 @@ public class Author implements SearchDescription {
 
     @Override
     public String searchEntryDescription() {
-        return "born in "+this.birthplace+" the " + this.birthdate;
+
+       StringBuilder sB = new StringBuilder();
+
+        sB.append("legal name : ");
+        if(this.legalName != null){
+            sB.append(this.legalName);
+        }
+        else {
+            sB.append("unknown");
+        }
+
+        sB.append("\n");
+        sB.append("pseudo : ");
+        if(this.birthplace != null){
+            sB.append(this.pseudo);
+        }
+        else {
+            sB.append("unknown");
+        }
+        sB.append("\n");
+        sB.append("language : ");
+        if(this.language != null){
+            sB.append(this.language);
+        }
+        else {
+            sB.append("unknown");
+        }
+        sB.append("\n");
+
+        sB.append("email : ");
+        if(this.email != null){
+            sB.append(this.email);
+        }
+        else {
+            sB.append("unknown");
+        }
+        sB.append("\n");
+
+        return sB.toString();
     }
 
     @Override
     public void displayContent(){
-        ContentControler.getInstance().displayAuthor(this);
+        ResultControler.getInstance().displayAuthor(this);
     }
 
 }

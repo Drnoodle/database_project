@@ -1,6 +1,6 @@
 package library;
 
-import controler.ContentControler;
+import controler.ResultControler;
 
 /**
  * Created by noodle on 17.05.16.
@@ -32,12 +32,18 @@ public class Publisher implements SearchDescription {
 
     @Override
     public String searchEntryDescription() {
-        return this.note;
+
+        if(note != null){
+            return note;
+        }
+
+        return "";
     }
 
     @Override
     public void displayContent(){
-        ContentControler.getInstance().displayPublisher(this);
+        ResultControler.getInstance().displayPublisher(this);
     }
+
 
 }

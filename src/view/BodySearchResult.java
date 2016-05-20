@@ -1,16 +1,14 @@
 package view;
 
-import controler.ContentControler;
+import controler.ResultControler;
 import controler.ContentPaneControler;
 import library.*;
 import utils.BackgroundPanel;
-import utils.Callback;
 import utils.LocalFont;
 
 import javax.swing.*;
 import javax.swing.border.EmptyBorder;
 import java.awt.*;
-import java.util.*;
 import java.util.List;
 
 /**
@@ -19,33 +17,27 @@ import java.util.List;
 public class BodySearchResult extends BackgroundPanel{
 
 
-    private utils.Button closeButton;
-
     private JPanel resultContent;
 
 
     public BodySearchResult() {
-        super("images/background.png");
+
+        super("images/background_body.png");
 
         this.setLayout(new BorderLayout());
 
 
-        this.resultContent = new BackgroundPanel("images/background.png");
+        this.resultContent = new JPanel();
+        this.resultContent.setBorder(new EmptyBorder(0,20,0,0));
+        this.resultContent.setOpaque(false);
         this.resultContent.setLayout(new BorderLayout());
-        resultContent.setOpaque(true);
-        this.closeButton = new utils.Button("x");
-
-        JPanel closeTopContainer = new JPanel(new FlowLayout(FlowLayout.RIGHT));
-        closeTopContainer.setOpaque(false);
-
-        closeTopContainer.add(closeButton, BorderLayout.NORTH);
-        closeTopContainer.add(closeButton);
 
         JScrollPane scrollPane = new JScrollPane();
+        scrollPane.setHorizontalScrollBarPolicy(JScrollPane.HORIZONTAL_SCROLLBAR_NEVER);
         scrollPane.setBorder(new EmptyBorder(0,0,0,0));
         scrollPane.setOpaque(false);
         scrollPane.setViewportView(resultContent);
-        this.add(closeTopContainer, BorderLayout.NORTH);
+        scrollPane.getViewport().setOpaque(false);
         this.add(scrollPane);
 
     }
@@ -58,11 +50,14 @@ public class BodySearchResult extends BackgroundPanel{
 
         JPanel container = new JPanel();
         container.setOpaque(false);
-        BoxLayout box = new BoxLayout(container,BoxLayout.PAGE_AXIS);
-        container.setLayout(box);
+
+        int totalRows = (int)Math.ceil(((double)results.size())/2);
+
+        container.setLayout(new GridLayout(totalRows,2));
 
         for(SearchDescription sd : results){
             JPanel entry = new ResultEntry(sd);
+            entry.setOpaque(false);
             container.add(entry);
         }
 
@@ -82,8 +77,9 @@ public class BodySearchResult extends BackgroundPanel{
     private static class ResultEntry extends JPanel{
         public ResultEntry(SearchDescription d){
 
+
             utils.Button title = new utils.Button(d.searchEntryTitle());
-            title.setForeground(Color.darkGray);
+            title.setForeground(new Color(220,150,70));
             title.setFont(LocalFont.getFont(LocalFont.FRANCOISONE,14));
             title.setBorder(new EmptyBorder(0,0,0,0));
             JPanel titleContainer = new JPanel(new FlowLayout(FlowLayout.LEFT));
@@ -93,26 +89,34 @@ public class BodySearchResult extends BackgroundPanel{
                 @Override
                 public void run() {
                     d.displayContent();
-                    ContentPaneControler.getInstance().display(ContentControler.getInstance());
+                    ContentPaneControler.getInstance().display(ResultControler.getInstance());
                 }
             });
 
-            JLabel desc = new JLabel(d.searchEntryDescription());
-            desc.setForeground(Color.LIGHT_GRAY);
-            desc.setBorder(new EmptyBorder(0,20,0,0));
 
+            String[] descLines = d.searchEntryDescription().split("\n");
 
-            this.setBorder(new EmptyBorder(5,5,5,5));
+            JPanel descPan = new JPanel();
+            descPan.setBackground(new Color(225,225,225,80));
+
+            BoxLayout box = new BoxLayout(descPan, BoxLayout.PAGE_AXIS);
+            descPan.setLayout(box);
+            descPan.add(title);
+
+            for(int i = 0; i<descLines.length; i++){
+                JLabel lab = new JLabel(descLines[i]);
+                lab.setFont(LocalFont.getFont(LocalFont.LATO,12));
+                lab.setForeground(Color.DARK_GRAY);
+                descPan.add(lab);
+            }
+
+            this.setBorder(new EmptyBorder(15,5,5,5));
             this.setOpaque(false);
             this.setLayout(new BorderLayout());
-            this.add(titleContainer, BorderLayout.NORTH);
-            this.add(desc);
+            this.add(descPan, BorderLayout.NORTH);
+
         }
     }
 
-
-    public Callback closeCallback(){
-        return closeButton.clickedCallback();
-    }
 
 }

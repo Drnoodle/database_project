@@ -1,13 +1,12 @@
 package data_access;
 
-import java.sql.Connection;
-import java.sql.DriverManager;
-import java.sql.PreparedStatement;
-import java.sql.ResultSet;
-import java.sql.ResultSetMetaData;
-import java.sql.SQLException;
+import view.ContentPane;
 
-import view.BodyForm.AvailableRequest;
+import java.sql.Connection;
+import java.sql.PreparedStatement;
+import java.sql.SQLException;
+import view.ContentPane.AvailableRequest;
+
 
 public class DBMilstone2 {
 

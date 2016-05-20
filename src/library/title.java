@@ -1,6 +1,6 @@
 package library;
 
-import controler.ContentControler;
+import controler.ResultControler;
 
 /**
  * Created by noodle on 17.05.16.
@@ -61,7 +61,7 @@ public class Title implements SearchDescription {
 
     @Override
     public void displayContent(){
-        ContentControler.getInstance().displayTitle(this);
+        ResultControler.getInstance().displayTitle(this);
     }
 
 }

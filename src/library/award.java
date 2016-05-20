@@ -1,6 +1,6 @@
 package library;
 
-import controler.ContentControler;
+import controler.ResultControler;
 
 /**
  * Created by noodle on 17.05.16.
@@ -48,12 +48,30 @@ public class Award implements SearchDescription {
 
     @Override
     public String searchEntryDescription() {
-        return "rewarded by "+this.name;
+        StringBuilder sB = new StringBuilder();
+        sB.append("rewarded by : ");
+        if(this.byName != null){
+            sB.append(this.byName);
+        }
+        else {
+            sB.append("unknow");
+        }
+        sB.append("\n");
+        sB.append("rewarded for : ");
+        if(this.forName != null){
+            sB.append(this.forName);
+        }
+        else {
+            sB.append("unknown");
+        }
+
+
+        return sB.toString();
     }
 
     @Override
     public void displayContent(){
-        ContentControler.getInstance().displayAward(this);
+        ResultControler.getInstance().displayAward(this);
     }
 
 }
