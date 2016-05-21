@@ -1,6 +1,9 @@
 package library;
 
 import controler.ResultControler;
+import data_access.DBInsert;
+
+import java.sql.SQLException;
 
 /**
  * Created by noodle on 17.05.16.
@@ -16,6 +19,7 @@ public class Award implements SearchDescription {
     public String byName;
     public String forName;
     public String note;
+    public Integer idNote;
 
 
     public Award(
@@ -26,7 +30,8 @@ public class Award implements SearchDescription {
             String name,
             String byName,
             String forName,
-            String note
+            String note,
+            Integer idNote
     ){
 
         this.idAward = idAward;
@@ -37,6 +42,7 @@ public class Award implements SearchDescription {
         this.byName = byName;
         this.forName = forName;
         this.note = note;
+        this.idNote = idNote;
 
     }
 
@@ -73,5 +79,12 @@ public class Award implements SearchDescription {
     public void displayContent(){
         ResultControler.getInstance().displayAward(this);
     }
+
+    @Override
+    public void updateNote(String note, DBInsert insert) throws SQLException {
+        insert.updateNote(this,note);
+        this.note = note;
+    }
+
 
 }

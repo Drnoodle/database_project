@@ -83,9 +83,12 @@ public class ContentPane extends JPanel{
         searchPane.setBorder(new EmptyBorder(0,10,0,0));
 
 
-        searchButton = new Button("Search");
-        searchButton.setForeground(Color.WHITE);
-        searchButton.setFont(LocalFont.getFont(LocalFont.LOBSTER,13));
+        searchButton = new Button(
+                "Search",
+                Color.WHITE,
+                LocalFont.getFont(LocalFont.LOBSTER,13)
+                );
+
         searchButton.setPreferredSize(new Dimension(80,30));
         searchButton.setBorder(new EmptyBorder(3,0,0,0));
 
@@ -124,17 +127,23 @@ public class ContentPane extends JPanel{
 
         header.setLayout(new BorderLayout());
         header.add(headerContainer, BorderLayout.EAST);
-        ldbButton = new Button("LibDBMS");
-        ldbButton.setFont(LocalFont.getFont(LocalFont.FRANCOISONE,14));
-        ldbButton.setForeground(new Color(100,100,100));
+        ldbButton = new Button(
+                "LibDBMS",
+                new Color(100,100,100),
+                LocalFont.getFont(LocalFont.FRANCOISONE,14)
+                );
+
         header.add(ldbButton, BorderLayout.WEST);
 
 
-        insertButton = new Button("insert");
-        insertButton.setFont(LocalFont.getFont(LocalFont.FRANCOISONE,12));
+        insertButton = new Button(
+                "insert",
+                Color.WHITE,
+                LocalFont.getFont(LocalFont.FRANCOISONE,12)
+                );
+
         insertButton.setOpaque(true);
         insertButton.setBackground(new Color(50,50,50));
-        insertButton.setForeground(Color.WHITE);
 
         JPanel footer = new JPanel(new BorderLayout());
         footer.setBackground(new Color(50,50,50));
@@ -182,8 +191,6 @@ public class ContentPane extends JPanel{
     }
 
     public String searchText(){
-
-        System.out.print(searchPane.getText());
         return searchPane.getText();
     }
 

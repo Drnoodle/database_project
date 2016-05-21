@@ -104,8 +104,13 @@ public class BodyInsert extends BackgroundPanel {
             container.add(imgLinkField);
 
 
-            this.insertDataButton = new Button("insert");
-            insertDataButton.setFont(LocalFont.getFont(LocalFont.BREE,14));
+            this.insertDataButton = new Button(
+                    "insert",
+                    Color.WHITE,
+                    LocalFont.getFont(LocalFont.BREE,14)
+            );
+
+
             container.add(insertDataButton);
             container.setBorder(new EmptyBorder(20,20,20,20));
 

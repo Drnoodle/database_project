@@ -163,7 +163,8 @@ public class DBSearch {
                     res.getString("NAME"),
                     res.getString("BY_NAME"),
                     res.getString("FOR_NAME"),
-                    res.getString("NOTE")
+                    res.getString("NOTE"),
+                    res.getInt("ID_NOTE")
                     );
 
             awards.add(award);

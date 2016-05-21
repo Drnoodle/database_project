@@ -1,6 +1,9 @@
 package library;
 
 import controler.ResultControler;
+import data_access.DBInsert;
+
+import java.sql.SQLException;
 
 /**
  * Created by noodle on 17.05.16.
@@ -8,7 +11,7 @@ import controler.ResultControler;
 public class Title implements SearchDescription {
 
 
-    public Integer idtitle;
+    public Integer idTitle;
     public String title;
     public Integer storyLength;
     public Integer idNote;
@@ -34,7 +37,7 @@ public class Title implements SearchDescription {
             String note,
             String synopsis){
 
-        this.idtitle = idtitle;
+        this.idTitle = idtitle;
         this.title = title;
         this.storyLength = storyLength;
         this.idNote = idNote;
@@ -62,6 +65,12 @@ public class Title implements SearchDescription {
     @Override
     public void displayContent(){
         ResultControler.getInstance().displayTitle(this);
+    }
+
+    @Override
+    public void updateNote(String note, DBInsert insert) throws SQLException {
+        insert.updateNote(this,note);
+        this.note = note;
     }
 
 }

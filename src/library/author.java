@@ -1,6 +1,9 @@
 package library;
 
 import controler.ResultControler;
+import data_access.DBInsert;
+
+import java.sql.SQLException;
 
 /**
  * Created by noodle on 17.05.16.
@@ -109,5 +112,12 @@ public class Author implements SearchDescription {
     public void displayContent(){
         ResultControler.getInstance().displayAuthor(this);
     }
+
+    @Override
+    public void updateNote(String note, DBInsert insert) throws SQLException {
+        insert.updateNote(this,note);
+        this.note = note;
+    }
+
 
 }
