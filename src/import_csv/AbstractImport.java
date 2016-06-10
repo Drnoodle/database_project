@@ -1,13 +1,13 @@
 package import_csv;
 
+import data_access.CsvReader;
+import utils.CsvFile;
+
 import java.io.IOException;
 import java.security.InvalidParameterException;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.SQLException;
-
-import data_access.CsvReader;
-import utils.CsvFile;
 
 public abstract class AbstractImport {
 
@@ -81,10 +81,11 @@ public abstract class AbstractImport {
 			String[] row = reader.next();
 			this.clearInsertParameters();
 			this.addBatch(row);
-			i++;
-			if(i%100 == 0){
-				this.insertCommit();
-				System.out.println(i+" rows inserted");
+
+            i++;
+            if(i%100 == 0){
+                this.insertCommit();
+                System.out.println(i+" rows inserted");
 			}
 		}
 		

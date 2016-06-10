@@ -31,7 +31,7 @@ public class BodyResult extends BackgroundPanel {
         content.setOpaque(false);
 
         closeButton= new utils.Button("close", new Color(40,40,40), LocalFont.getFont(LocalFont.FRANCOISONE,12));
-        updateButton= new utils.Button("update", new Color(40,40,40), LocalFont.getFont(LocalFont.FRANCOISONE,12));
+        updateButton= new utils.Button("save", new Color(40,40,40), LocalFont.getFont(LocalFont.FRANCOISONE,12));
         this.add(content);
 
     }

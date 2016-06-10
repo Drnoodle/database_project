@@ -1,10 +1,10 @@
 package import_csv;
 
-import java.sql.Connection;
-import java.sql.SQLException;
-
 import utils.CsvFile;
 import utils.PublicationType;
+
+import java.sql.Connection;
+import java.sql.SQLException;
 
 public class Publication extends AbstractImport{
 
@@ -20,26 +20,41 @@ public class Publication extends AbstractImport{
 			return;
 		}
 		this.setStringInInsert(1, row[0]);
+
+        if(row[1].length() > 200){
+            row[1] = row[1].substring(0,200);
+        }
 		this.setStringInInsert(2, row[1]);
 		this.setStringInInsert(3, row[2]);
 		
 		String pages = row[4].replaceAll("[^\\p{N}]", "");
 
+        if(pages.length() > 4){
+            pages = "";
+        }
+
 		this.setStringInInsert(4, pages);
-		
+
+        if(row[7].length() > 12){
+            row[7] = row[7].substring(0,12);
+        }
+
 		this.setStringInInsert(5, row[7]);
+
+
 		this.setStringInInsert(6, row[8]);
 		String price = row[9].replaceAll("[^\\p{N}^.]", "");
 		
-		if(price.length() <= 0){
-			price = "\\N";
-		}
-		
-		if(price.length() >4){
+
+		if(price.length() > 4){
 			price = price.substring(0,4);
 		}
 		
 		String curr = row[9].replaceAll("[\\p{N}.]", "");
+
+        if(curr.length() > 7){
+            curr = curr.substring(0,7);
+        }
 		this.setStringInInsert(7, price);
 		this.setStringInInsert(8, curr);
 		

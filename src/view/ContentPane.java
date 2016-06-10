@@ -1,19 +1,17 @@
 package view;
 
-import java.awt.*;
+import utils.Button;
+import utils.Callback;
+import utils.CustomComboBox;
+import utils.LocalFont;
 
 import javax.swing.*;
-import javax.swing.border.Border;
 import javax.swing.border.EmptyBorder;
-
-import utils.*;
-import utils.Button;
+import java.awt.*;
 
 public class ContentPane extends JPanel{
-	
-	
 
-	private static final long serialVersionUID = 1L;
+    private static final long serialVersionUID = 1L;
 
 
 	private JComponent body;
@@ -27,26 +25,31 @@ public class ContentPane extends JPanel{
 
 
     public enum AvailableRequest{
-        NO_REQUEST_SELECTED("custom request"),
-        YEAR_TO_TOTAL_PUB("total publications by year"),
-        TEN_MOST_PUBLISHED_AUTHORS("ten most published authors"),
-        YOUNGEST_AUTHOR("youngest Author"),
-        OLDEST_AUTHOR("oldest Author"),
-        COMIC_DETAIL("comics by total pages"),
-        PUBLISHER_AVERAGE_NOVEL_PRICE("average price of novels by publisher"),
-        AUTHOR_SCIENCE_FICTION(
-                "Author with the higgest number of "
-                        + "titles tagged as science fiction"),
-        THREE_MOST_POPULAR_TITLE("three most popular titles");
+        NO_REQUEST_SELECTED,
+        PUBLICATION_FOR_SAID_YEAR,
+        TEN_AUTHOR_WITH_MOST_PUBLICATION,
+        COMICS_PAGES_CLUSTERED,
+        AVERAGE_NOVEL_PRICE_BY_PUBLISHER,
+        AUTHOR_SCIENCE_FICTION,
+        THREE_MOST_POPULAR_TITLE,
+        AVERAGE_PRICE_BY_CURRENY_MOST_POPULAR_TITLE,
+        TOP_TEN_AWARDED_TITLE_SERIE,
+        AUTHOR_MOST_AWARDED_AFTER_DEATH,
+        MOST_REVIEWED_TITLE_FOR_YEAR,
+        MOST_REVIEWED_TITLE_FOR_AUTHOR,
+        TOP_3_MOST_TRANSLASTED_TITLES,
+        TOTAL_AUTHOR_BY_PUBLISHER_BY_YEAR,
+        AWARDED_WORLD_FANTASY_AWARD,
+        MOST_AWARDED_AUTHORS,
+        LIVING_AUTHORS_ANTHOLOGY,
+        AVERAGE_NUMBER_PUBLICATION_SERIE,
+        THREE_AUTHORS_MOST_TRANSLATED_IN_NOVEL,
+        TEN_AUTHORS_PAGES_DOLLAR_RATIO,
+        NEBULA_MOST_EXTENSIVE_WEB;
 
-        private String desc;
-
-        AvailableRequest(String desc){
-            this.desc = desc;
-        }
-
+        //TODO : refactor
         public String description(){
-            return desc;
+            return this.name();
         }
 
     }

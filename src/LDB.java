@@ -1,11 +1,9 @@
-import javax.swing.*;
-
 import controler.ContentPaneControler;
 import data_access.DBConnection;
-import data_access.DBSearch;
-import library.Award;
+import import_csv.AbstractImport;
+import utils.CsvFile;
 
-import java.sql.Connection;
+import javax.swing.*;
 import java.sql.SQLException;
 
 public class LDB {
@@ -22,6 +20,15 @@ public class LDB {
         frame.setVisible(true);
         frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 
+        try {
+
+            System.out.println("pub");
+            AbstractImport import_ = AbstractImport.abstractImport(CsvFile.PUBLICATIONS, DBConnection.getConnection());
+            import_.insert();
+
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
 
     }
 	

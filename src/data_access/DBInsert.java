@@ -88,16 +88,16 @@ public class DBInsert {
         insertAuthor.clearParameters();
         insertNote.clearParameters();
 
-        Integer nextAvailableNoteId=null;
-        Integer nextAvailableAuthorId=null;
+        String nextAvailableNoteId=null;
+        String nextAvailableAuthorId=null;
 
         if(note.length() != 0) {
 
             ResultSet res =maxNoteId.executeQuery();
             res.next();
 
-            nextAvailableNoteId = res.getInt(1) + 1;
-            insertNote.setInt(1, nextAvailableNoteId);
+            nextAvailableNoteId = ""+res.getInt(1) + 1;
+            insertNote.setString(1, nextAvailableNoteId);
             insertNote.setString(2,note);
             insertNote.executeUpdate();
         }
@@ -105,9 +105,9 @@ public class DBInsert {
 
         ResultSet res =maxAuthorId.executeQuery();
         res.next();
-        nextAvailableAuthorId = res.getInt(1)+1;
+        nextAvailableAuthorId = ""+res.getInt(1)+1;
 
-        insertAuthor.setInt(1,nextAvailableAuthorId);
+        insertAuthor.setString(1,nextAvailableAuthorId);
         insertAuthor.setString(2,name);
         insertAuthor.setString(3,legalName);
         insertAuthor.setString(4,lastName);
@@ -118,7 +118,7 @@ public class DBInsert {
         insertAuthor.setString(9,email);
         insertAuthor.setString(10,imgLink);
         insertAuthor.setString(11,null);
-        insertAuthor.setInt(12, nextAvailableNoteId);
+        insertAuthor.setString(12, nextAvailableNoteId);
         insertAuthor.executeUpdate();
 
     }
